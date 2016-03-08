@@ -3,7 +3,11 @@ import alexaActions
 import sparkApi
 
 applicationId = "APP ID"
-accessToken = "SPARK ACCESS TOKEN"
+spark_AccessToken = "SPARK ACCESS TOKEN"
+twilio_AccountSid = "TWILIO ACCOUNT SID"
+twilio_AuthToken  = "TWILIO AUTH TOKEN"
+cellPhoneE164 = "YOUR CELLPHONE NUMBER"
+twilioNumber = "YOUR ASSIGNED TWILIO NUMBER"
 
 def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
@@ -20,7 +24,7 @@ def lambda_handler(event, context):
     	raise ValueError("Invalid Application ID")	
     if event['session']['new']:
        on_session_started({'requestId': event['request']['requestId']}, event['session'])
-    event['session']['user']['accessToken'] = accessToken
+    event['session']['user']['accessToken'] = spark_AccessToken
     if event['request']['type'] == "LaunchRequest":
     	if 'accessToken' in event['session']['user']:
     		sparkApi.sparkAccessToken = event['session']['user']['accessToken']
@@ -82,6 +86,8 @@ def on_intent(intent_request, session):
     	return post_message_from_session(intent, session)
     elif intent_name == "MessageIntent":
     	return message_from_session(intent, session)
+    elif intent_name == "StartJoinMeetingIntent":
+    	return startjoinmeeting_from_session(intent, session)
     elif intent_name == "AMAZON.YesIntent":
     	return yes_from_session(intent, session)
     elif intent_name == "AMAZON.NoIntent":
@@ -250,6 +256,51 @@ def message_from_session(intent, session):
 		should_end_session = False
 	return build_response(session_attributes, build_speechlet_response(card_title, speech_output, reprompt_text, should_end_session))
 
+def startjoinmeeting_from_session(intent, session):
+	print ("Intent Request is StartJoinMeetingIntent")
+	print (session)
+	print (intent)
+	card_title = "Start/ Join a Meeting ?"
+	if 'value' in intent['slots']['Room']:
+		roomVal = intent['slots']['Room']['value']
+		if 'attributes' in session:
+			latestIntent = session['attributes']['intentSequence'][-1]
+			allowedLatestIntents = ['welcome', 'latestMessages', 'postMessage', 'postMessageRoomDecline', 'postMessageValueConfirm', 'startJoinMeeting', 'startJoinMeetingDecline']
+			if latestIntent in allowedLatestIntents:
+				session['attributes']['intentSequence'].append('startJoinMeeting')
+				reprompt_text = None
+				print ("Room Value in Intent Request is: ", roomVal)
+				speech_output, roomIdVal = alexaActions.startJoinMeeting(roomVal)
+				session['attributes']['startJoinMeeting'] = {'roomId': roomIdVal}
+				session_attributes = session['attributes']
+				print ("Alexa Speech Output is: " + speech_output)
+				should_end_session = False
+			else:
+				session_attributes = session['attributes']
+				reprompt_text = None
+				speech_output = "I did not quite understand that. Please try again."
+				print ("Alexa Speech Output is: " + speech_output)
+				should_end_session = False
+		else:
+			session_attributes = {'intentSequence': ['startJoinMeeting']}
+			session['attributes'] = session_attributes
+			reprompt_text = None
+			speech_output, roomIdVal = alexaActions.startJoinMeeting(roomVal)
+			session['attributes']['startJoinMeeting'] = {'roomId': roomIdVal}
+			session['attributes'] = session_attributes
+			print ("Alexa Speech Output is: " + speech_output)
+			should_end_session = False
+	else:
+		if 'attributes' in session:
+			session_attributes = session['attributes']
+		else:
+			session_attributes = {}
+		reprompt_text = None
+		speech_output = "I did not quite understand that. Please try again."
+		print ("Alexa Speech Output is: " + speech_output)
+		should_end_session = False
+	return build_response(session_attributes, build_speechlet_response(card_title, speech_output, reprompt_text, should_end_session))
+
 def yes_from_session(intent, session):
 	print ("Intent Request is Yes")
 	print (session)
@@ -275,6 +326,15 @@ def yes_from_session(intent, session):
 			speech_output = "What would you like to say?"
 			print ("Alexa Speech Output is: " + speech_output)
 			should_end_session = False
+		elif latestIntent == 'startJoinMeeting' and session['attributes']['startJoinMeeting']['roomId'] != None:
+			session['attributes']['intentSequence'].append('startJoinMeetingConfirm')
+			session_attributes = session['attributes']
+			startJoinRoomId = session['attributes']['startJoinMeeting']['roomId']
+			speech_output = alexaActions.startJoinMeetingAction(startJoinRoomId)
+			reprompt_text = None
+			print ("Intent Request is Yes to startJoinMeetingConfirm")
+			print ("Alexa Speech Output is: " + speech_output)
+			should_end_session = True
 		else:
 			session_attributes = session['attributes']
 			reprompt_text = None
@@ -311,6 +371,15 @@ def no_from_session(intent, session):
 			session_attributes = session['attributes']
 			reprompt_text = None
 			print ("Intent Request is No to postMessage - Room")
+			speech_output = "Ok Cancelled. What would you like to do?"
+			print ("Alexa Speech Output is: " + speech_output)
+			should_end_session = False
+		elif latestIntent == 'startJoinMeeting' and session['attributes']['startJoinMeeting']['roomId'] != None:
+			session['attributes']['intentSequence'].append('startJoinMeetingDecline')
+			del session['attributes']['startJoinMeeting']
+			session_attributes = session['attributes']
+			reprompt_text = None
+			print ("Intent Request is No to startJoinMeeting - Room")
 			speech_output = "Ok Cancelled. What would you like to do?"
 			print ("Alexa Speech Output is: " + speech_output)
 			should_end_session = False

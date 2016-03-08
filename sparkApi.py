@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import sys, urllib, urllib2, json
+import urllib, urllib2, json
 
 sparkDeveloperUrl = 'https://api.ciscospark.com/v1'
 sparkAccessToken = None
@@ -65,6 +65,10 @@ def get(getMethod, getMethodData=None):
 		elif getMethod == 'rooms':
 			if getMethodData == None:
 				url = sparkDeveloperUrl + '/' + getMethod + '/'
+				roomsResponseDict = getRequest(url, sparkAccessToken)
+				return roomsResponseDict
+			if isinstance(getMethodData, dict) and 'roomId' in getMethodData and 'showSipAddress' in getMethodData:
+				url = sparkDeveloperUrl + '/' + getMethod + '/' + getMethodData['roomId'] + '?' + 'showSipAddress=' + getMethodData['showSipAddress']
 				roomsResponseDict = getRequest(url, sparkAccessToken)
 				return roomsResponseDict
 			if isinstance(getMethodData, dict) and 'roomId' in getMethodData:

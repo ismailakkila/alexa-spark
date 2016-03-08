@@ -1,6 +1,8 @@
 from __future__ import print_function
 import re
+import main
 import sparkApi
+from twilio.rest import TwilioRestClient
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
@@ -145,4 +147,52 @@ def sendMessage(messageVal, postRoomIdVal):
 	else:
 		speechOutput = "There is a problem connecting to Cisco Spark. Please try again in a few minutes."
 		return speechOutput
-		
+
+def startJoinMeeting(roomVal):
+	roomsListDict = sparkApi.get('rooms')
+	if roomsListDict != 'Error':
+		roomsListParsed = []
+		roomsMatchList = []
+		roomsString = ''
+		for room in roomsListDict['items']:
+			roomsListParsed.append({'Name': room['title'], 'ID':  room['id']})
+			roomsMatchList.append(room['title'])
+			roomsString = roomsString + room['title'] + '\n'
+		print ("This is the List of Rooms For the User:\n" + roomsString)
+		print ("Finding Closest Match...")
+		roomMatchTuple = process.extractOne(roomVal, roomsMatchList)
+		roomMatch = roomMatchTuple[0]
+		roomMatchScore = roomMatchTuple[1]
+		print ("Closest Match for Room Title is: ", roomMatch)
+		print ("Room Match Score: ", roomMatchScore)
+		if roomMatchScore >= 85:
+			for room in roomsListParsed:
+				if room['Name'] == roomMatch:
+					roomIdValue = room['ID']
+			print ("Room ID is: ", roomIdValue)
+			speechOutput = "Start or Join a Meeting in Spark Room: " + roomMatch + " . Shall I proceed?"
+		else:
+			print ("Room Does Not Exist For User")
+			speechOutput = "I'm not sure what your spark room is. You can try again."
+			roomIdValue = None
+	else:
+		speech_output = "There is a problem connecting to the Cisco Spark. Please try again in a few minutes."
+		roomIdValue = None
+	return speechOutput, roomIdValue	
+	
+def startJoinMeetingAction(startJoinRoomIdVal):
+	getRoomDetailsResponse = sparkApi.get('rooms', {'roomId': startJoinRoomIdVal, 'showSipAddress': 'true'})
+	if getRoomDetailsResponse != 'Error':
+		roomSipVal = getRoomDetailsResponse['sipAddress']
+		client = TwilioRestClient(main.twilio_AccountSid, main.twilio_AuthToken)
+		call = client.calls.create(url="https://webhook.akkila.net/twilio/" + roomSipVal,
+			to=main.cellPhoneE164 ,
+			from_=main.twilioNumber)
+		callStatus = client.calls.get(call.sid).status
+		if callStatus != 'failed':
+			speechOutput = "Calling your cellphone now"
+		else:
+			speechOutput = "There is a problem connecting you to the Spark room. Please try again in a few minutes."
+	else:
+		speechOutput = "There is a problem connecting to Cisco Spark. Please try again in a few minutes."
+	return speechOutput	
