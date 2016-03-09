@@ -8,6 +8,7 @@ twilio_AccountSid = "TWILIO ACCOUNT SID"
 twilio_AuthToken  = "TWILIO AUTH TOKEN"
 cellPhoneE164 = "YOUR CELLPHONE NUMBER"
 twilioNumber = "YOUR ASSIGNED TWILIO NUMBER"
+twilioXmlPath = "TwiML URL PATH"
 
 def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,

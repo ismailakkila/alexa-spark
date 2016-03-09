@@ -185,9 +185,7 @@ def startJoinMeetingAction(startJoinRoomIdVal):
 	if getRoomDetailsResponse != 'Error':
 		roomSipVal = getRoomDetailsResponse['sipAddress']
 		client = TwilioRestClient(main.twilio_AccountSid, main.twilio_AuthToken)
-		call = client.calls.create(url="https://webhook.akkila.net/twilio/" + roomSipVal,
-			to=main.cellPhoneE164 ,
-			from_=main.twilioNumber)
+		call = client.calls.create(url=main.twilioXmlPath + roomSipVal, to=main.cellPhoneE164, from_=main.twilioNumber)
 		callStatus = client.calls.get(call.sid).status
 		if callStatus != 'failed':
 			speechOutput = "Calling your cellphone now"
