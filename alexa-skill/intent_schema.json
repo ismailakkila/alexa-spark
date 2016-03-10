@@ -1,0 +1,52 @@
+{
+    "intents": [
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    },
+    {
+      "intent": "AMAZON.NoIntent"
+    },
+    {
+      "intent": "LatestMessagesIntent",
+      "slots": [
+        {
+            "name": "Room",
+            "type": "ROOM"
+        }
+      ]
+    },
+    {
+      "intent": "PostMessageIntent",
+      "slots": [
+        {
+            "name": "Room",
+            "type": "ROOM"
+        }
+       ]
+    },
+    {
+      "intent": "MessageIntent",
+      "slots": [
+        {
+            "name": "Message",
+            "type": "LITERAL"
+        }
+       ]
+    },
+    {
+      "intent": "StartJoinMeetingIntent",
+      "slots": [
+        {
+            "name": "Room",
+            "type": "ROOM"
+        }
+       ]
+    }
+  ]
+}

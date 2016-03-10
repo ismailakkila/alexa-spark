@@ -1,0 +1,20 @@
+AMAZON.HelpIntent can you repeat that
+AMAZON.HelpIntent any recent updates
+AMAZON.HelpIntent any recent activity
+AMAZON.HelpIntent recent activity
+AMAZON.HelpIntent recent updates
+
+LatestMessagesIntent what is new in {Room}
+LatestMessagesIntent what is new in room {Room}
+
+PostMessageIntent post message to {Room}
+PostMessageIntent post message to room {Room}
+
+StartJoinMeetingIntent start meeting in {Room}
+StartJoinMeetingIntent join meeting in {Room}
+StartJoinMeetingIntent start meeting in room {Room}
+StartJoinMeetingIntent join meeting in room {Room}
+
+MessageIntent send message {hey how are you we are the champions hello world thank thanks something sure|Message}
+MessageIntent send message {good morning evening night good luck safe travels absolutely test|Message}
+MessageIntent send message {foot view Highest management overview Program Assessment Bandwidth Benchmarking Benchmark Measuring against Best practice Tried and tested process Best practice methodology Bottleneck Where a process is held up Blue sky thinking Idealistic or visionary ideas not always with practical application source BBC Cascade Array of possible actions to take in response to a problem protocol Change Check in the box complete the task CoachCouch the idea Compensation actions Competitive advantage Conflict resolution Constraints Core competencies Core values Cost avoidance Cost reduction Cost transformation Cracker jack Critical thinker Cutting edge practices up to date new methods Dashboard Deliverables end product Diagnosis Downsize reduce the number of employees through a layoff Enduser perspective What a customer thinks of a product or service or how they feel having to or after using a product service What is thought about one of your items or services sold by a third party Enterprise Excellence Flavor of the month the current popular activity person as directed by the company client management Fire fighter Game changer Game theory Gatekeeper Golden handshake Golden parachute Governance Headhunter Hub an idea which other ideas are linked to Income pressures Joined up thinking Discussing the viewpoints of each organization and coming to an agreement or compromise Individual contributor Leadership Lean forward and Lean back media Learning experience Line of sight Low hanging fruit Tasks that have the greatest positive effect for the least effort used when promoting new projects to show the advantages Mad as a hornet Mastery Matrix organization Metrics Milestones Momentum Moving target Nesting processNesting Not invented here Initiative Individual contributor One belly button to push Reduced number of suppliers Operational excellence Outcomes Paradigm shift Partnership Positive Momentum Practical application Process Process management Product service environment Raft of measures A collection of proposals or schemes Recommendation Requirements Revenue growth Revenue mix Right size Seat at the table Showcase Show stopper Tent pole the task or item most likely to delay a project or consume the most resources Six Sigma Silo Vertical and Horizontal Silver bullet One solution for everything Stakeholders every group or individual affected by the outcome of a decision Standards State of the art Superior advantageperformance Supply chain Synergy System Teamwork Thought leader Touchpoints Underpinning The foundations of an idea which helps another related scheme or proposal Unique selling proposition USP Value added Womb to tomb An idea or program that is killed before it has a chance to grow or flourish Winwin solution Providing a product or service which makes everyone happy|Message}

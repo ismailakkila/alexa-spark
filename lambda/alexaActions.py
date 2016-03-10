@@ -3,6 +3,7 @@ import re
 import main
 import sparkApi
 from twilio.rest import TwilioRestClient
+from twilio import TwilioRestException
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
@@ -184,13 +185,17 @@ def startJoinMeetingAction(startJoinRoomIdVal):
 	getRoomDetailsResponse = sparkApi.get('rooms', {'roomId': startJoinRoomIdVal, 'showSipAddress': 'true'})
 	if getRoomDetailsResponse != 'Error':
 		roomSipVal = getRoomDetailsResponse['sipAddress']
-		client = TwilioRestClient(main.twilio_AccountSid, main.twilio_AuthToken)
-		call = client.calls.create(url=main.twilioXmlPath + roomSipVal, to=main.cellPhoneE164, from_=main.twilioNumber)
-		callStatus = client.calls.get(call.sid).status
-		if callStatus != 'failed':
-			speechOutput = "Calling your cellphone now"
-		else:
-			speechOutput = "There is a problem connecting you to the Spark room. Please try again in a few minutes."
+		try:
+			client = TwilioRestClient(main.twilio_AccountSid, main.twilio_AuthToken)
+			call = client.calls.create(url=main.twilioXmlPath + '/' + roomSipVal, to=main.cellPhoneE164, from_=main.twilioNumber)
+			callStatus = client.calls.get(call.sid).status
+			if callStatus != 'failed':
+				speechOutput = "Calling your cellphone now"
+			else:
+				speechOutput = "There is a problem connecting you to the Spark room. Please try again in a few minutes."
+		except TwilioRestException as e:
+			speechOutput = "There is a problem connecting to Twilio. Please try again in a few minutes."
+			
 	else:
 		speechOutput = "There is a problem connecting to Cisco Spark. Please try again in a few minutes."
 	return speechOutput	
