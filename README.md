@@ -4,7 +4,7 @@ All of the pieces for an Amazon Echo (Alexa) <-> Cisco Spark integration.
 
 # Usage
 
-* Recent Activity: Echo will inform you of the last 5 rooms with recent activity
+* Recent Activity: Echo will inform you of the last 5 rooms with recent activity.
   
   "Alexa, Open Spark"
 
@@ -17,7 +17,7 @@ All of the pieces for an Amazon Echo (Alexa) <-> Cisco Spark integration.
   "Can You Repeat That"
   
 
-* Recent Messages: Echo will inform you of the most recent chat messages (up to 3) within a Spark Room
+* Recent Messages: Echo will inform you of the most recent chat messages (up to 3) within a Spark Room.
   
   "Alexa, Ask Spark What is New in {Spark Room}"
   
@@ -30,7 +30,7 @@ All of the pieces for an Amazon Echo (Alexa) <-> Cisco Spark integration.
   "What is New in Room {Spark Room}"
   
 
-* Post Message: Echo will post a message to one of your Spark Rooms
+* Post Message: Echo will post a message to one of your Spark Rooms.
  
  "Alexa, Ask Spark to Post Message to {Spark Room}"
  
@@ -43,7 +43,7 @@ All of the pieces for an Amazon Echo (Alexa) <-> Cisco Spark integration.
   "Post Message to Room {Spark Room}"
   
 
-* Start or Join a Meeting (Requires Twilio for now, Tropo is coming): Echo will enable a call-back to your phone and bridge the call to your Spark room to either start or join an existing meeting in that room
+* Optional: Start or Join a Meeting (Requires Twilio for now, Tropo is coming): Echo will enable a call-back to your phone and bridge the call to your Spark room (via SIP URI)  to either start or join an existing meeting in that room.
   
   "Alexa, Ask Spark to Start a Meeting in {Spark Room}"
   
@@ -68,16 +68,16 @@ All of the pieces for an Amazon Echo (Alexa) <-> Cisco Spark integration.
 
 1. When you say the command to Alexa, it triggers the Alexa skill with the invocation name Spark.
 2. The Alexa skill calls a web service running on AWS Lambda, passing it the Spark room name.
-3. Lambda then fires an API request (GET/ POST) to Spark with the appropriate parameters required to carry out the command
-4. Based on the response, Lambda returns the required speech output to the Alexa skill for possibly further actions
+3. Lambda then fires an API request (GET/ POST) to Spark with the appropriate parameters required to carry out the command.
+4. Based on the response, Lambda returns the required speech output to the Alexa skill for possible further actions.
 
 Included here are the Alexa Skill configuration, the Lambda AWS service that catches the Alexa requests, and an example "Room Slot" configuration.
 
 To set it up, you need to do the following:
 
 # Create a Spark Account
-1. Please go to https://developer.ciscospark.com and create your account
-2. Make note of your access token as it will be used to connect to the Spark API platform
+1. Please go to https://developer.ciscospark.com and create your account.
+2. Make note of your access token as it will be used to connect to the Spark API platform.
 
 # Create a Twilio Account (Optional)
 1. Please go to twilio.com to create your account. You will need to buy a "Twilio Telephone Number" to enable calling out from the platform.
@@ -126,4 +126,6 @@ To set it up, you need to do the following:
 # Connect Alexa Skill to AWS Lambda
 1. In the Lambda console, copy the long "ARN" string in the upper right.  
 2. Go back into the Alexa Skill console, open your skill, click "Skill Information", choose Lambda ARN and paste that ARN string in.
-3. Now you're ready to put it all together. Try "Alexa, Open Spark" to test
+3. Now you're ready to put it all together. Try "Alexa, Open Spark" to test.
+
+Good Luck!
