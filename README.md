@@ -87,7 +87,7 @@ To set it up, you need to do the following:
 
 # Create a Twilio Account (Optional)
 1. Please go to twilio.com to create your account. You will need to buy a "Twilio Telephone Number" to enable calling out from the platform.
-2. You will also need to define a URL path that will return the Twilio XML (TwiML). The AWS Lambda service will make the following HTTP GET Request: http://urlpath/1234@domain.com. It will append the SIP URI of the Spark room that will be bridged to the call on your cellphone. I have provided a simple python webhook server in the 'twilioXML' folder. I will leave this up to you to decide on how you would like to deploy your webhook server.
+2. You will also need to define a URL path that will return the Twilio XML (TwiML). The AWS Lambda service will make the following HTTP GET Request: http://path/to/url/twilio/1234@domain.com where the variable defined is "http://path/to/url/twilio". It will append the SIP URI of the Spark room that will be bridged to the call on your cellphone. I have provided a simple python webhook server in the 'twilioXML' folder. I will leave this up to you to decide on how you would like to deploy it.
 3. Make note of the following paramters: Account SID, Auth Token, Your E164 Telephone Number (+12321234567), Twilio Telephone Number and TWiml XML URL Path. 
 
 # Create the Alexa Skill that will send events to AWS Lambda
