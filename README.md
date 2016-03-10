@@ -30,11 +30,14 @@ All of the pieces for an Amazon Echo (Alexa) <-> Cisco Spark integration.
   "What is New in Room {Spark Room}"
   
 
-* Post Message: Echo will post a message to one of your Spark Rooms.
+* Post Message (Experimental): Echo will post a message to one of your Spark Rooms.
  
- "Alexa, Ask Spark to Post Message to {Spark Room}"
+  "Alexa, Ask Spark to Post Message to {Spark Room}"
  
   "Alexa, Ask Spark to Post Message to Room {Spark Room}"
+
+  Alexa will ask you to confirm your room. Once confirmed, you can say "Send Message: Your Message". Confirm again to have your            message sent.
+
 
   Once the skill is 'triggered' with "Open Spark", you can say the following anytime during the session to post your room message:
  
@@ -52,6 +55,9 @@ All of the pieces for an Amazon Echo (Alexa) <-> Cisco Spark integration.
   "Alexa, Ask Spark to Join a Meeting in {Spark Room}"
   
   "Alexa, Ask Spark to Join a Meeting in Room {Spark Room}"
+
+   Alexa will ask you to confirm your room. Once confirmed, the call-back will be initiated.
+   
 
   Once the skill is 'triggered' with "Open Spark", you can say the following anytime during the session to start or join your meeting:
   
