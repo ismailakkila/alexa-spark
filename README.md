@@ -89,9 +89,9 @@ To set it up, you need to do the following:
 2. Name can be whatever you want. "Invocation" is what you say (I used "Spark").
 3. Put a dummy value in the Endpoint. We'll come back to this.
 4. Click Next, taking you to Interaction Model. Copy this repo's "alexa-skill/intent_schema.json" into the "Intent Schema" field, and "alexa-skill/utterances.txt" into "Sample Utterances".
-5. Still in Interaction Model, create a Custom Slot Type ("Add Slot Type"). Add a new type for ROOM. For accuracy, I would recommend that you export all your room titles from Spark. There is a script.py in the folder that would allow you to retrieve your list of rooms:
+5. Still in Interaction Model, create a Custom Slot Type ("Add Slot Type"). Add a new type for ROOM. For accuracy, I would recommend that you export all your room titles from Spark. There is a script.py in the folder that would allow you to retrieve your list of rooms. Replace sparkAcccessToken with your actual token:
   
-  python /path/to/script.py <sparkAccessToken>
+  python /path/to/script.py sparkAccessToken
 
 7. Copy/paste these values. I have provided an example in the alexa-skill folder.
 6. Click back to "Skill Information" and make note of the "Application ID". You'll need this for Lambda.
