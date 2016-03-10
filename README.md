@@ -81,16 +81,20 @@ To set it up, you need to do the following:
 
 # Create a Twilio Account (Optional)
 1. Please go to twilio.com to create your account. You will need to buy a "Twilio Telephone Number" to enable calling out from the platform.
-2. You will also need to define a URL path for a Twilio XML file. This will serve the XML file and provides. I will leave this up to you on how you can set this up.
-2. Make note of the following paramters: Account SID, Auth Token, Your E164 Telephone Number (+12321234567), Twilio Telephone Number and TWiml XML URL Path
+2. You will also need to define a URL path that will return the Twilio XML (TwiML). The AWS Lambda service will make the following HTTP GET Request: http://urlpath/1234@domain.com. It will append the SIP URI of the Spark room that will be bridged to the call on your cellphone. I have provided a simple python webhook server in the 'twilioXML' folder. I will leave this up to you to decide on how you would like to deploy your webhook server.
+3. Make note of the following paramters: Account SID, Auth Token, Your E164 Telephone Number (+12321234567), Twilio Telephone Number and TWiml XML URL Path. 
 
 # Create the Alexa Skill that will send events to AWS Lambda
 1. Create a new Skill in the Alexa Skills control panel on Amazon. You need a developer account to do this.
 2. Name can be whatever you want. "Invocation" is what you say (I used "Spark").
 3. Put a dummy value in the Endpoint. We'll come back to this.
 4. Click Next, taking you to Interaction Model. Copy this repo's "alexa-skill/intent_schema.json" into the "Intent Schema" field, and "alexa-skill/utterances.txt" into "Sample Utterances".
-5. Still in Interaction Model, create a Custom Slot Type ("Add Slot Type"). Add a new type for ROOM. For accuracy, I would recommend that you export all your room titles from Spark. Copy/paste these values. I have provided an example in the alexa-skill folder.
-6. Don't test yet, just save. Click back to "Skill Information" and make note of the "Application ID". You'll need this for Lambda.
+5. Still in Interaction Model, create a Custom Slot Type ("Add Slot Type"). Add a new type for ROOM. For accuracy, I would recommend that you export all your room titles from Spark. There is a script.py in the folder that would allow you to retrieve your list of rooms:
+  
+  python /path/to/script.py <sparkAccessToken>
+
+7. Copy/paste these values. I have provided an example in the alexa-skill folder.
+6. Click back to "Skill Information" and make note of the "Application ID". You'll need this for Lambda.
 
 # Configure the AWS Lambda service that will trigger your API calls
 1. Create an AWS Lambda account if you don't have one already. It's free!
